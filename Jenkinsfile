@@ -4,13 +4,19 @@ pipeline {
         string(name: "repoName", description: "Repo name", defaultValue: "")
         string(name: "username", description: "Owner of repo", defaultValue: "")
     }
-    environment {
-        myname = "vedant"
-    }
     stages {
-        stage("clean"){
+        stage("Clean"){
             steps{
                 deleteDir()
+            }
+        }
+        stage("Clone Repository") {
+            steps {
+                script {
+                    sh "git clone https://github.com/${params.username}/${params.repoName}.git"
+                    sh 'git fetch --all'
+                    sh 'ls -la'
+                }
             }
         }
         stage("Select Repository") {
@@ -25,7 +31,6 @@ pipeline {
         }
         stage("Display Branch Info") {
             steps {
-            	echo "branch selected is ${branchChoice}"
                 script {
                     def repoDir = "${env.WORKSPACE}/${params.repoName}"
                     echo "Repository directory: ${repoDir}"
@@ -39,3 +44,4 @@ pipeline {
         }
     }
 }
+
