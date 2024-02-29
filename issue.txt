@@ -1,0 +1,2 @@
+Not able to detect the file in branch in workspace
+/var/lib/jenkins/workspace/branch.txt
